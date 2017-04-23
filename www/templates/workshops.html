@@ -1,8 +1,9 @@
-<ion-view view-title="workshops">
-  <ion-content>
-    <h1>Workshops</h1>
-    <ionic-menu>
-    	<ionic-item ng-repeat="workshop in workshops">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}}</ionic-item>
-    </ionic-menu>
+<ion-view view-title="Pajat">
+  <ion-content padding="true">
+    <h1>Pajat</h1>
+    <ion-list>
+    	<ion-item ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}} 
+    	</ion-list>
+    </ion-menu>
   </ion-content>
 </ion-view>
