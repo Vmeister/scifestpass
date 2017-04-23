@@ -28,8 +28,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     .state('app', {
     url: '/app',
     abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    templateUrl: 'templates/menu.html'
+    //controller: 'AppCtrl'
+  })
+
+  .state('app.workshops', {
+    url: '/workshops',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/workshops.html',
+        controller: 'WorkshopsCtrl'
+      }
+    }
   })
 
   .state('app.qrcode', {
@@ -40,35 +50,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         controller: "BarcodeCtrl"
       }
     }
-  })
-
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/workshops');
 });

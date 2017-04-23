@@ -12,6 +12,27 @@ angular.module('starter.controllers', [])
     }
 })
 
+.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer) {
+  $scope.workshops = [];
+
+  var req = {
+    method: 'POST',
+    url: "http://46.101.155.94/api/get_workshops/",
+    transformRequest:  $httpParamSerializer,
+    headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+    data: {scifest_id: 10},
+  }
+  $http(req).success(function(data) {
+    for(i = 0; i < data.data.length; i++) {
+      $scope.workshops.push(data.data[i]);
+    }
+  }).
+  error(function(data) {
+    $scope.workshops = data;
+  });
+})
+
+/**
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
   // With the new view caching in Ionic, Controllers are only called
@@ -51,18 +72,4 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
-})
-
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})*/
