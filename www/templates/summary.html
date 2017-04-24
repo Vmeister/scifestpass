@@ -1,0 +1,13 @@
+<ion-view view-title="Yhteenveto">
+  <ion-content padding="true">
+    <h1>Yhteenveto</h1>
+    <h2>Skannatut tehtävät</h2>
+    <ion-list>
+    	<ion-item ng-repeat="assignment in unansweredAssignments" ng-click="showAssignment(unansweredAssignments)">{{assignment.title}}</ion-item>
+    </ion-list>
+    <h2>Suoritetut tehtävät</h2>
+    <ion-list>
+    	<ion-item ng-repeat="assignment in answeredAssignments" ng-click="showCompleted(answeredAssignments)">Kysymys: {{assignment.title}} <br> vastaus: {{assignment.answer}}</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
