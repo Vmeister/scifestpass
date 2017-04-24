@@ -1,22 +1,40 @@
 angular.module('starter.controllers', [])
 
 .controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner) {
-    $scope.data = "";
+    $scope.title = "";
+    $scope.content = "";
+    $scope.answer = "";
+    $scope.qrRead = false;
 
     var req = {
     	method: 'POST',
     	url: 'http://46.101.155.94/api/scifest_pass_qr_get/',
     	transformRequest: $httpParamSerializer,
     	headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-    	data: $scope.data
+    	data: null
     }
 
     $scope.readQR = function() {
       $cordovaBarcodeScanner.scan().then(function(barcodeData) {
-      	$scope.data = barcodeData;
+      	req.data = {pass_qr : barcodeData.text};
+
+        $http(req).success(function(data) {
+          createAssignment(data);
+        })
+        .error(function(data) {
+          alert("QR-koodin lukeminen epäonnistui. Yritä uudelleen");
+        })
+
       }, function(err) {
-        $scope.data = err;
+         alert("QR-koodin lukeminen epäonnistui. Yritä uudelleen")
       });
+    }
+
+    var createAssignment = function(data) {
+       $scope.qrRead = true;
+       $scope.title = data.data.title;
+       $scope.content = data.data.content;
+       //data.data.type = tehtävätyyppi jolloin $scope.answer sen mukaiseksi?
     }
 })
 

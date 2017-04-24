@@ -1,7 +1,15 @@
 <ion-view view-title="Tehtävät">
   <ion-content>
-    <h1>Tehtävät</h1>
-    <button ng-click="readQR()">Skannaa QR</button>
-    <h2>{{data}}</h2>
+    <div ng-hide="qrRead">
+    	<button ng-click="readQR()">Skannaa QR</button>
+    </div>
+    <div ng-show="qrRead">
+    	<h2>{{title}}</h2>
+    	<p ng-bind-html="content"></p>
+    	<h3>{{answer}}</h3>
+
+    	<button ng-click="saveAnswer()">Tallenna vastaus</button>
+    	<button ng-click="cancelAssignment()">Peruuta</button>
+    </div>
   </ion-content>
 </ion-view>
