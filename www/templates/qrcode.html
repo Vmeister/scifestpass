@@ -7,11 +7,19 @@
     </div>
     <div ng-show="qrRead">
       <h2>{{title}}</h2>
-      <p ng-bind-html="content"></p>
       <div ng-show="isOpenQuestion">
+        <p ng-bind-html="content"></p>
         <h2>Vastaus</h2>
         <textarea id="answer" name="answerArea" ng-model="openAnswer"></textarea>
       </div>
+
+      <div ng-show="isMultipleChoice">
+        <ion-list ng-repeat="question in multipleChoices" ng-model="multipleChoices">
+          {{question.question}}
+          <ion-item ng-repeat="option in question.options" ng-model="question">
+          {{option}}
+          </ion-item>
+        </ion-list>
     </div>
   </ion-content>
   <ion-footer-bar ng-show="qrRead">

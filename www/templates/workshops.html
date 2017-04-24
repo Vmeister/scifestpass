@@ -2,11 +2,6 @@
   <ion-content padding="true">
     <h1>Pajat</h1>
     <ion-list>
-    	<ion-item ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}} 
-    	</ion-list>
-    </ion-menu>
+    	<ion-item ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}}</ion-item>
   </ion-content>
-    <ion-footer-bar style: "height: auto">
-    	<h3>Voisitko paska näkyy</h3>
-   </ion-footer-bar>
 </ion-view>

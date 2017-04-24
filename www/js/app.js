@@ -67,6 +67,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         controller: "BarcodeCtrl"
       }
     }
+  })
+  .state('app.summary', {
+    url: '/summary',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/summary.html',
+        controller: "SummaryCtrl"
+      }
+    }
+  })
+  .state('app.qrdebug', {
+    url: '/qrdebug',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/qrdebug.html',
+        controller: 'QRDebugCtrl'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/qrcode');
