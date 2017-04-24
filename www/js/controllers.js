@@ -5,6 +5,8 @@ angular.module('starter.controllers', [])
     $scope.content = "";
     $scope.answer = "";
     $scope.qrRead = false;
+    $scope.isOpenQuestion = false;
+    $scope.openAnswer = "";
 
     var req = {
     	method: 'POST',
@@ -35,6 +37,9 @@ angular.module('starter.controllers', [])
        $scope.title = data.data.title;
        $scope.content = data.data.content;
        //data.data.type = tehtävätyyppi jolloin $scope.answer sen mukaiseksi?
+       if(data.data.type = "0") {
+          $scope.isOpenQuestion = true;
+       }
     }
 })
 
@@ -58,10 +63,8 @@ angular.module('starter.controllers', [])
     $scope.workshops = data;
   });
 
-  $scope.workshops.push("Testi 1", "Testi 2");
-
   $scope.showWorshopData = function(workshop) {
-  	alert(workshop);
+  	alert(JSON.stringify(workshop));
   }
 })
 

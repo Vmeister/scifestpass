@@ -1,15 +1,21 @@
 <ion-view view-title="Tehtävät">
-  <ion-content>
+  <link href="css/style.css" rel="stylesheet">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <ion-content padding="true">
     <div ng-hide="qrRead">
     	<button ng-click="readQR()">Skannaa QR</button>
     </div>
     <div ng-show="qrRead">
-    	<h2>{{title}}</h2>
-    	<p ng-bind-html="content"></p>
-    	<h3>{{answer}}</h3>
-
-    	<button ng-click="saveAnswer()">Tallenna vastaus</button>
-    	<button ng-click="cancelAssignment()">Peruuta</button>
+      <h2>{{title}}</h2>
+      <p ng-bind-html="content"></p>
+      <div ng-show="isOpenQuestion">
+        <h2>Vastaus</h2>
+        <textarea id="answer" name="answerArea" ng-model="openAnswer"></textarea>
+      </div>
     </div>
   </ion-content>
+  <ion-footer-bar ng-show="qrRead">
+        <button ng-click="saveAnswer()">Tallenna vastaus</button>
+        <button ng-click="cancelAssignment()">Peruuta</button>
+   </ion-footer-bar>
 </ion-view>
