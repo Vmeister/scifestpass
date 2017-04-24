@@ -43,8 +43,12 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer) {
+.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage) {
   $scope.workshops = [];
+
+  //$localstorage.setObject('id',213);
+
+  //$localstorage.getObject('id')
 
   var req = {
     method: 'POST',
