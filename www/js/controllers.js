@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL) {
+.controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT) {
     $scope.title = "";
     $scope.content = "";
     $scope.answer = "";
@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
 
     var req = {
     	method: 'POST',
-    	url: APIURL + 'scifest_pass_qr_get/',
+    	url: APIURL + GET_ASSIGNMENT,
     	transformRequest: $httpParamSerializer,
     	headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     	data: null
@@ -59,7 +59,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL) {
+.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL, GET_WORKSHOPS) {
   $scope.workshops = [];
 
   //$localstorage.setObject('id',213);
@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
 
   var req = {
     method: 'POST',
-    url: APIURL + "get_workshops/",
+    url: APIURL + GET_WORKSHOPS,
     transformRequest:  $httpParamSerializer,
     headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     data: {scifest_id: 10},
@@ -88,13 +88,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL) {
+.controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT) {
   $scope.qrdata = "";
   $scope.JSON = "";
 
     var req = {
       method: 'POST',
-      url: APIURL + 'scifest_pass_qr_get/',
+      url: APIURL + GET_ASSIGNMENT,
       transformRequest: $httpParamSerializer,
       headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
       data: null

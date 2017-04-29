@@ -7,6 +7,8 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStorage'])
 
 .value('APIURL','http://46.101.155.94/api/')
+.value('GET_WORKSHOPS', 'get_workshops/')
+.value('GET_ASSIGNMENT', 'scifest_pass_qr_get/')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
