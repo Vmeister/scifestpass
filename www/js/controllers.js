@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner) {
+.controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL) {
     $scope.title = "";
     $scope.content = "";
     $scope.answer = "";
@@ -12,7 +12,7 @@ angular.module('starter.controllers', [])
 
     var req = {
     	method: 'POST',
-    	url: 'http://46.101.155.94/api/scifest_pass_qr_get/',
+    	url: APIURL + 'scifest_pass_qr_get/',
     	transformRequest: $httpParamSerializer,
     	headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     	data: null
@@ -46,7 +46,7 @@ angular.module('starter.controllers', [])
         $scope.isMultipleChoice = true;
         var assignment = JSON.parse(data.data.content);
           for(i = 0; i < assignment.data.length; i++) {
-            $scope.multipleChoices[i] = 
+            $scope.multipleChoices[i] =
                 {
                   question: assignment.data[i][0],
                   options: []
@@ -59,7 +59,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage) {
+.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL) {
   $scope.workshops = [];
 
   //$localstorage.setObject('id',213);
@@ -68,7 +68,7 @@ angular.module('starter.controllers', [])
 
   var req = {
     method: 'POST',
-    url: "http://46.101.155.94/api/get_workshops/",
+    url: APIURL + "get_workshops/",
     transformRequest:  $httpParamSerializer,
     headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     data: {scifest_id: 10},
@@ -88,13 +88,13 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner) {
+.controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL) {
   $scope.qrdata = "";
   $scope.JSON = "";
 
     var req = {
       method: 'POST',
-      url: 'http://46.101.155.94/api/scifest_pass_qr_get/',
+      url: APIURL + 'scifest_pass_qr_get/',
       transformRequest: $httpParamSerializer,
       headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
       data: null
