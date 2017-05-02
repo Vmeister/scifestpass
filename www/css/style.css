@@ -4,3 +4,8 @@
 	height: 200px;
 	border: solid 1px #FFF;
 }
+
+.selected {
+	background-color: #4286f4 !important;
+	border: solid 2px #FFF;
+}

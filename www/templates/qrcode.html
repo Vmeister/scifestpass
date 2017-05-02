@@ -14,13 +14,23 @@
       </div>
 
       <div ng-show="isMultipleChoice">
-        <ion-list ng-repeat="question in multipleChoices" ng-model="multipleChoices">
+        <ion-list ng-repeat="question in questions" ng-model="multipleChoices">
+          {{question.question}}
+          <ion-item ng-repeat="option in question.options" ng-model="options" 
+          ng-click="select(question.question, option.option)" ng-class="{'selected' : option.selected}">
+              {{option.option}}
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div ng-show="isSingleChoice">
+        <ion-list ng-repeat="question in choices" ng-model="singleChoices">
           {{question.question}}
           <ion-item ng-repeat="option in question.options" ng-model="question">
           {{option}}
           </ion-item>
         </ion-list>
-    </div>
+      </div>
   </ion-content>
   <ion-footer-bar ng-show="qrRead">
         <button ng-click="saveAnswer()">Tallenna vastaus</button>

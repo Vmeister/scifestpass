@@ -8,7 +8,7 @@ angular.module('starter.controllers', [])
     $scope.isOpenQuestion = false;
     $scope.isMultipleChoice = false;
     $scope.openAnswer = "";
-    $scope.multipleChoices = [];
+    $scope.questions = [];
 
     var req = {
     	method: 'POST',
@@ -44,18 +44,78 @@ angular.module('starter.controllers', [])
        }
        else if(data.data.type == 1) {
         $scope.isMultipleChoice = true;
-        var assignment = JSON.parse(data.data.content);
-          for(i = 0; i < assignment.data.length; i++) {
-            $scope.multipleChoices[i] =
+        $scope.isOpenQuestion = false;
+        $scope.isSingleChoice = false;
+        var multipleChoice = JSON.parse(data.data.content);
+          for(i = 0; i < multipleChoice.data.length; i++) {
+            $scope.questions[i] =
                 {
-                  question: assignment.data[i][0],
-                  options: []
+                  "question": multipleChoice.data[i][0],
+                  "options": [],
+                  "answers": []
               };
-            for(j = 0; j < assignment.data[i].length-1; j++) {
-                $scope.multipleChoices[i].options[j] = assignment.data[i][j+1];
+            for(j = 0; j < multipleChoice.data[i].length-1; j++) {
+                $scope.questions[i].options[j] = {
+                  "option": multipleChoice.data[i][j+1],
+                  "selected": false
+                }
             }
           }
        }
+       else if(data.data.type == 2) {
+        $scope.isSingleChoice = true;
+        $scope.isMultipleChoice = false;
+        $scope.isOpenQuestion = false;
+        var singleChoice = JSON.parse(data.data.content);
+          for(i = 0; i < singleChoice.data.length; i++) {
+            $scope.questions[i] =
+                {
+                  "question": singleChoice.data[i][0],
+                  "options": [],
+                  "answer": null
+              };
+            for(j = 0; j < singleChoice.data[i].length-1; j++) {
+                $scope.questions[i].options[j] = singleChoice.data[i][j+1];
+            }
+          }
+       }
+    }
+
+    $scope.saveAnswer = function() {
+      //toiminnallisuutta
+    }
+
+    $scope.cancelAssignment = function() {
+      clearAssignment();
+    }
+
+    var clearAssignment = function() {
+    $scope.title = "";
+    $scope.content = "";
+    $scope.answer = "";
+    $scope.qrRead = false;
+    $scope.isOpenQuestion = false;
+    $scope.isMultipleChoice = false;
+    $scope.openAnswer = "";
+    $scope.questions = [];
+    }
+
+    $scope.select = function(question, choice) {
+      for(i = 0; i < $scope.questions.length; i++)
+        if($scope.questions[i].question == question) {
+          for(j = 0; j < $scope.questions[i].options.length; j++)
+            if($scope.questions[i].options[j].option == choice) {
+              if($scope.questions[i].options[j].selected == false) {
+                $scope.questions[i].options[j].selected = true;
+                $scope.questons[i].answers.push[choice];
+              }
+              else {
+                $scope.questions[i].options[j].selected = false;
+                var index = $scope.questions[i].answers.indexOf(choice);
+                $scope.questons[i].answers.splice(index, 1);
+              } 
+            }          
+        }
     }
 })
 
@@ -120,8 +180,8 @@ angular.module('starter.controllers', [])
 
 .controller('SummaryCtrl', function($scope) {
   var assignment = {
-    title: "kakka",
-    answer: "homo"
+    title: "Testi",
+    answer: "Tehtävä"
   }
   $scope.unansweredAssignments = [assignment];
   $scope.answeredAssignments = [assignment];
