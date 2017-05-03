@@ -7,7 +7,7 @@
     </ion-list>
     <h2>Suoritetut tehtävät</h2>
     <ion-list>
-    	<ion-item ng-repeat="assignment in answeredAssignments" ng-click="showCompleted(answeredAssignments)">Kysymys: {{assignment.title}} <br> vastaus: {{assignment.answer}}</ion-item>
+    	<ion-item ng-repeat="assignment in answeredAssignments" ng-click="showCompleted(answeredAssignments)">Kysymys: {{assignment.question}} <br> vastaus: {{assignment.answer}}</ion-item>
     </ion-list>
   </ion-content>
 </ion-view>

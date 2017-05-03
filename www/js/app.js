@@ -9,6 +9,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 .value('APIURL','http://46.101.155.94/api/')
 .value('GET_WORKSHOPS', 'get_workshops/')
 .value('GET_ASSIGNMENT', 'scifest_pass_qr_get/')
+.value('CHECK_ASSIGNMENT', 'scifest_pass_qr_check/')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -27,6 +28,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 })
 
 .factory('$localstorage', ['$window', function ($window) {
+  var items = [];
+  $window.localStorage[0] = items;
+
   return {
     set: function (key, value) {
       $window.localStorage[key] = value;
@@ -35,10 +39,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
       return $window.localStorage[key] || defaultValue;
     },
     setObject: function (key, value) {
+      alert("Saving " + key + ":" + value);
       $window.localStorage[key] = JSON.stringify(value);
+      items.push(key);
+      $window.localStorage[0] = items;
     },
     getObject: function (key) {
       return JSON.parse($window.localStorage[key] || '{}');
+    },
+    getAll:function() {
+      var allItems = [];
+      var items = $window.localStorage[0];
+      for(i = 0; i < items.length; i++) {
+        var item = $window.localStorage[items[i]];
+        if(item != undefined) {
+          allItems.push($window.localStorage[items[i]]);
+        }
+      }
+      return allItems;
     }
   }
 }])
@@ -74,6 +92,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
   })
   .state('app.summary', {
     url: '/summary',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/summary.html',
