@@ -11,9 +11,9 @@ angular.module('starter.controllers', [])
     $scope.id = null;
 
     $scope.questionStorage = {
+      type: null,
       title: null,
-      question: null,
-      answer: null
+      data: null
     }
 
     $scope.answerChange = function(change) {
@@ -96,15 +96,18 @@ angular.module('starter.controllers', [])
 
     $scope.saveAnswer = function() {
       if($scope.isOpenQuestion) {
+        $scope.questionStorage.type = 0;
         $scope.questionStorage.title = $scope.title;
-        $scope.questionStorage.question = $scope.content;
+        $scope.questionStorage.data = $scope.content;
         $scope.questionStorage.answer = $scope.openAnswer;
       }
       else {
-        $scope.questionStorage = {
-          title: $scope.title,
-          data: $scope.questions
-        }
+        $scope.questionStorage.title = $scope.title;
+        $scope.questionStorage.data = $scope.questions;
+        if($scope.isSingleChoice)
+          $scope.questionStorage.type = 2;
+        else $scope.questionStorage.type = 1;
+
       }
       $localstorage.setObject($scope.id, $scope.questionStorage);
       clearAssignment();
@@ -150,7 +153,7 @@ angular.module('starter.controllers', [])
     $scope.qrRead = false;
     $scope.isOpenQuestion = false;
     $scope.isMultipleChoice = false;
-    $scope.openAnswer = "";
+    $scope.openAnswer = null;
     $scope.questions = [];
     $scope.questionStorage.title = null;
     $scope.questionStorage.question = null;
@@ -249,10 +252,22 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SummaryCtrl', function($scope, $localstorage) {
-  $scope.unansweredAssignments = [];
-  var assignments = [];
-  $scope.answeredAssignments = [];
-  assignments = $localstorage.getAll();
-  $scope.answeredAssignments.push(JSON.parse(assignments));
-  alert(JSON.stringify($scope.answeredAssignments));
+  $scope.unansweredQuestions = [];
+  $scope.answeredQuestions = [];
+  $scope.debug = "";
+  var answered = $localstorage.getAll();
+  for(i = 0; i < answered.length; i++) {
+    var question = JSON.parse(answered[i]);
+    $scope.debug = question;
+    if(question.type == 0) {
+      $scope.answeredQuestions.push("Kysymys: " + question.data + "\n" + "Vastaus: " + question.answer);
+    }
+    else {
+      var text = "";
+      for(j = 0; j < question.data.length; j++) {
+        text =  text + "Kysymys: " + question.data[j].question + "\n" + "Vastaukset: " + question.data[j].answers + "\n";
+      }
+      $scope.answeredQuestions.push(text);
+    }
+  }
 })

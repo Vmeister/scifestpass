@@ -20,7 +20,9 @@
     "cordova-plugin-statusbar",
     "cordova-plugin-device",
     "ionic-plugin-keyboard",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "cordova-plugin-compat",
+    "phonegap-plugin-barcodescanner"
   ],
   "cordovaPlatforms": []
 }
