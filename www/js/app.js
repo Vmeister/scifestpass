@@ -39,7 +39,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
       return $window.localStorage[key] || defaultValue;
     },
     setObject: function (key, value) {
-      alert("Saving " + key + ":" + value);
       $window.localStorage[key] = JSON.stringify(value);
       items.push(key);
       $window.localStorage[0] = items;

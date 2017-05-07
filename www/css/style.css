@@ -1,8 +1,21 @@
+.balanced {
+	background-color: #c9e0d0;
+}
+
 #answer {
-	background-color: grey;
+	background-color: #c9e0d0;
 	width: 90%;
 	height: 200px;
-	border: solid 1px #FFF;
+	border: solid 3px #FFF;
+	border-color: #FFF;
+}
+
+.answer {
+	background-color: #c9e0d0;
+	width: 90%;
+	height: 200px;
+	border: solid 3px #FFF;
+	border-color: #FFF;
 }
 
 .selected {

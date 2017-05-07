@@ -1,7 +1,9 @@
 <ion-view view-title="Pajat">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <ion-content padding="true">
     <h1>Pajat</h1>
     <ion-list>
-    	<ion-item ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}}</ion-item>
+    	<ion-item class="item-divider" ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}}</ion-item>
   </ion-content>
 </ion-view>

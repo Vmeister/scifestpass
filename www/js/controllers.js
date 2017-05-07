@@ -6,7 +6,9 @@ angular.module('starter.controllers', [])
     $scope.qrRead = false;
     $scope.isOpenQuestion = false;
     $scope.isMultipleChoice = false;
-    $scope.openAnswer = "";
+    $scope.openAnswer = {
+      answer: ""
+    }
     $scope.questions = [];
     $scope.id = null;
 
@@ -16,9 +18,6 @@ angular.module('starter.controllers', [])
       data: null
     }
 
-    $scope.answerChange = function(change) {
-      $scope.openAnswer = change;
-    }
 
     var req = {
     	method: 'POST',
@@ -52,9 +51,9 @@ angular.module('starter.controllers', [])
           $scope.isOpenQuestion = true;
        }
        else if(data.data.type == 1) {
-        $scope.isMultipleChoice = true;
+        $scope.isMultipleChoice =false;
         $scope.isOpenQuestion = false;
-        $scope.isSingleChoice = false;
+        $scope.isSingleChoice = true;
         var multipleChoice = JSON.parse(data.data.content);
           for(i = 0; i < multipleChoice.data.length; i++) {
             $scope.questions[i] =
@@ -72,8 +71,8 @@ angular.module('starter.controllers', [])
           }
        }
        else if(data.data.type == 2) {
-        $scope.isSingleChoice = true;
-        $scope.isMultipleChoice = false;
+        $scope.isSingleChoice = false;
+        $scope.isMultipleChoice = true;
         $scope.isOpenQuestion = false;
         var singleChoice = JSON.parse(data.data.content);
           for(i = 0; i < singleChoice.data.length; i++) {
@@ -99,7 +98,7 @@ angular.module('starter.controllers', [])
         $scope.questionStorage.type = 0;
         $scope.questionStorage.title = $scope.title;
         $scope.questionStorage.data = $scope.content;
-        $scope.questionStorage.answer = $scope.openAnswer;
+        $scope.questionStorage.answer = $scope.openAnswer.answer;
       }
       else {
         $scope.questionStorage.title = $scope.title;
@@ -153,7 +152,7 @@ angular.module('starter.controllers', [])
     $scope.qrRead = false;
     $scope.isOpenQuestion = false;
     $scope.isMultipleChoice = false;
-    $scope.openAnswer = null;
+    $scope.openAnswer.answer = "";
     $scope.questions = [];
     $scope.questionStorage.title = null;
     $scope.questionStorage.question = null;
@@ -166,24 +165,24 @@ angular.module('starter.controllers', [])
           for(j = 0; j < $scope.questions[i].options.length; j++)
             if($scope.questions[i].options[j].option == choice) {
               if($scope.questions[i].options[j].selected == false) {
-                if($scope.ismultipleChoice) {
+                if($scope.isMultipleChoice) {
                   $scope.questions[i].options[j].selected = true;
-                  $scope.questions[i].answers.push(choice);
+                  if($scope.questions[i].answers.indexOf(choice) == -1)
+                    $scope.questions[i].answers.push(choice);
                 } else {
-                   $scope.questions[i].options[j].selected = true;
-                   $scope.questions[i].answers.push(choice);
-                   for(k = 0; k < $scope.questions[i].options.length; k++)
-                    if($scope.questions[i].options[k].option !== choice) {
-                      $scope.questions[i].options[k].selected = false;
-                      var index = $scope.questions[i].answers.indexOf($scope.questions[i].options[k]);
-                      $scope.questons[i].answers.splice(index, 1);
-                    }
+                   if($scope.questions[i].answers.indexOf(choice) == -1) {
+                    $scope.questions[i].answers = [choice];
+                    for(k = 0; k < $scope.questions[i].options.length; k++)
+                      if($scope.questions[i].options[k].option !== choice)
+                        $scope.questions[i].options[k].selected = false;
+                      else $scope.questions[i].options[k].selected = true;
+                   }
                 }
               }
               else {
                 $scope.questions[i].options[j].selected = false;
                 var index = $scope.questions[i].answers.indexOf(choice);
-                $scope.questons[i].answers.splice(index, 1);
+                $scope.questions[i].answers.splice(index, 1);
               } 
             }          
         }
@@ -252,22 +251,28 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SummaryCtrl', function($scope, $localstorage) {
-  $scope.unansweredQuestions = [];
   $scope.answeredQuestions = [];
   $scope.debug = "";
   var answered = $localstorage.getAll();
   for(i = 0; i < answered.length; i++) {
     var question = JSON.parse(answered[i]);
-    $scope.debug = question;
     if(question.type == 0) {
-      $scope.answeredQuestions.push("Kysymys: " + question.data + "\n" + "Vastaus: " + question.answer);
+      var answeredQuestion = {
+        title: question.title,
+        text: "Kysymys: " + question.data + "<br>" + "Vastaus: " + question.answer
+      }
+      $scope.answeredQuestions.push(answeredQuestion);
     }
     else {
-      var text = "";
-      for(j = 0; j < question.data.length; j++) {
-        text =  text + "Kysymys: " + question.data[j].question + "\n" + "Vastaukset: " + question.data[j].answers + "\n";
+      var answeredQuestion = {
+        title: question.title,
+        text: ""
       }
-      $scope.answeredQuestions.push(text);
+      for(j = 0; j < question.data.length; j++) {
+        answeredQuestion.text =  answeredQuestion.text + "Kysymys: " + question.data[j].question +
+         "<br>" + "Vastaukset: " + question.data[j].answers + "<br>";
+      }
+      $scope.answeredQuestions.push(answeredQuestion);
     }
   }
 })

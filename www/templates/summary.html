@@ -1,15 +1,11 @@
 <ion-view view-title="Yhteenveto">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <ion-content padding="true">
     <h1>Suoritukset</h1>
-    <h2>Skannatut tehtävät</h2>
-    <ion-list>
-    	<ion-item ng-repeat="assignment in unansweredQuestions" ng-click="showAssignment(unansweredAssignments)">{{assignment.title}}</ion-item>
-    </ion-list>
-    <h2>Suoritetut tehtävät</h2>
-    <ion-list>
-    	<ion-item ng-repeat="assignment in answeredQuestions" ng-click="showCompleted(answeredAssignments)" class="item item-text-wrap">
-        {{assignment}}
-        </ion-item>
-    </ion-list>
+    <div ng-repeat="assignment in answeredQuestions" class="div div-text-wrap">
+        <h2>{{assignment.title}}</h2>
+        <p ng-bind-html="assignment.text">{{assignment.text}}</p>
+    </div>
   </ion-content>
 </ion-view>
