@@ -4,6 +4,18 @@
   <ion-content padding="true">
     <h1>Pajat</h1>
     <ion-list>
-    	<ion-item class="item-divider" ng-repeat="workshop in workshops" ng-click="showWorshopData(workshops)">{{"Nimi: " + workshop.name + " " + ", organisaatio: " + workshop.host_organization}}</ion-item>
+    	<div ng-repeat="workshop in workshops">
+    		<ion-item class="item-stable" ng-click="toggleWorkshop(workshop)"
+    		ng-class="{active: isClicked(workshop)}">
+    		{{workshop.name}}
+    		</ion-item>
+    		<ion-item class="item-accordion" ng-show="isClicked(workshop)">
+    		Kuvaus: {{workshop.description}} <br>
+    		Aihealueet: {{workshop.subjects}} <br> 
+    		Kohderyhmä: {{workshop.targetgroup}} <br>
+    		Järjestäjä:  {{workshop.host_organization}}
+    		</ion-item>
+    	</div>
+    </ion-list>
   </ion-content>
 </ion-view>

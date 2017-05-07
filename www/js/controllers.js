@@ -196,6 +196,16 @@ angular.module('starter.controllers', [])
 
   //$localstorage.getObject('id')
 
+  $scope.toggleWorkshop = function(workshop) {
+    if($scope.isClicked(workshop)) {
+      $scope.shownWorkshop = null;
+    } else $scope.shownWorkshop = workshop;
+  };
+
+  $scope.isClicked = function(workshop) {
+    return $scope.shownWorkshop === workshop;
+  };
+
   var req = {
     method: 'POST',
     url: APIURL + GET_WORKSHOPS,
@@ -206,16 +216,26 @@ angular.module('starter.controllers', [])
 
   $http(req).success(function(data) {
     for(i = 0; i < data.data.length; i++) {
-      $scope.workshops.push(data.data[i]);
+      var workshop = {
+        name : data.data[i].name + " (" + data.data[i].name_en +")",
+        subjects : "",
+        description : data.data[i].desc,
+        group_size: data.data[i].group_size,
+        host_organization: data.data[i].host_organization,
+        targetgroup: null
+      }
+      for(j = 0; j < data.data[i].subjects.length; j++) {
+        workshop.subjects = workshop.subjects + data.data[i].subjects[j].name;
+        if(j !=data.data[i].subjects.length-1)
+          workshop.subjects = workshop.subjects + ", ";
+      }
+      $scope.workshops.push(workshop);
     }
   }).
   error(function(data) {
     $scope.workshops = data;
   });
 
-  $scope.showWorshopData = function(workshop) {
-  	alert(JSON.stringify(workshop));
-  }
 })
 
 .controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT,
