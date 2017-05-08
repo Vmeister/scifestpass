@@ -99,7 +99,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 
   .state('app.workshops', {
     url: '/workshops',
-    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/workshops.html',

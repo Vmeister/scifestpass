@@ -5,7 +5,7 @@
     <h1>Pajat</h1>
     <ion-list>
     	<div ng-repeat="workshop in workshops">
-    		<ion-item class="item-stable" ng-click="toggleWorkshop(workshop)"
+    		<ion-item class="item-stable item-text-wrap" ng-click="toggleWorkshop(workshop)"
     		ng-class="{active: isClicked(workshop)}">
     		{{workshop.name}}
     		</ion-item>
