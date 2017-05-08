@@ -296,3 +296,17 @@ angular.module('starter.controllers', [])
     }
   }
 })
+
+.controller('MenuCtrl', function($scope, $rootScope, $stateParams, $state) {
+  $scope.help = function() {
+    var currentState = $state.current.name;
+    if(currentState === "app.workshops")
+      alert("Pajat-näkymä sisältää tietoja tämän vuoden SciFest-pajoista Saat lisätietoa pajasta klikkaamalla sen nimeä.");
+    else if(currentState === "app.qrcode")
+      alert("Tehtävät-näkymässä voit lukea QR-koodeja ja vastata koodilla saatuihin tehtäviin.");
+    else if(currentState === "app.summary")
+      alert("Yhteenveto-näkymässä voit tarkastella suoritettuja tehtäviäsi.");
+    else alert("Sovelluksen tietoja.");
+  }
+
+})

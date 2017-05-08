@@ -66,8 +66,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     .state('app', {
     url: '/app',
     abstract: true,
-    templateUrl: 'templates/menu.html'
-    //controller: 'AppCtrl'
+    templateUrl: 'templates/menu.html',
+    controller: 'MenuCtrl'
   })
 
   .state('app.workshops', {
@@ -99,12 +99,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
       }
     }
   })
-  .state('app.qrdebug', {
-    url: '/qrdebug',
+  .state('app.about', {
+    url: '/about',
     views: {
       'menuContent': {
-        templateUrl: 'templates/qrdebug.html',
-        controller: 'QRDebugCtrl'
+        templateUrl: 'templates/about.html',
       }
     }
   });
