@@ -76,18 +76,19 @@ angular.module('starter.controllers', [])
         $scope.isSingleChoice = false;
         $scope.isMultipleChoice = true;
         $scope.isOpenQuestion = false;
-        var singleChoice = JSON.parse(data.data.content);
-          for(i = 0; i < singleChoice.data.length; i++) {
+        var singleChoice = {
+          "data": [JSON.parse(data.data.content)]
+        }
+        for(i = 0; i < singleChoice.data.length; i++) {
             $scope.questions[i] =
                 {
                   "question": singleChoice.data[i][0],
                   "options": [],
                   "answers": []
               };
-            $scope.answers[i].question = $scope.questions[i].question;
-            for(j = 0; j < multipleChoice.data[i].length-1; j++) {
+            for(j = 0; j < singleChoice.data[i].length-1; j++) {
                 $scope.questions[i].options[j] = {
-                  "option": multipleChoice.data[i][j+1],
+                  "option": singleChoice.data[i][j+1],
                   "selected": false
                 }
             }
@@ -302,9 +303,17 @@ angular.module('starter.controllers', [])
           solved: false
         }
         if(question.type != 0) {
-          var parsedContent = JSON.parse(data.data[i].content);
+          var parsedContent = null;
+          if(question.type == 1)
+            parsedContent = JSON.parse(data.data[i].content);
+          else if(question.type == 2) {
+            parsedContent = {
+              data: [JSON.parse(data.data[i].content)]
+            }
+          }
           var parsedQuestions = "";
           question.content = "";
+          alert(JSON.stringify(parsedContent));
           for(k = 0; k < parsedContent.data.length; k++) {
             question.content += parsedQuestions + parsedContent.data[k][0];
             if(k < parsedContent.data.length-1) question.content+="<br>";
