@@ -9,8 +9,9 @@
     		ng-class="{active: isClicked(workshop)}">
     		{{workshop.name}}
     		</ion-item>
-    		<ion-item class="item-accordion" ng-show="isClicked(workshop)">
-    		Kuvaus: {{workshop.description}} <br>
+    		<ion-item class="item-accordion item-text-wrap" ng-show="isClicked(workshop)">
+    		<div ng-bind-html="workshop.description">
+        	{{workshop.description}}</div>
     		Aihealueet: {{workshop.subjects}} <br> 
     		Kohderyhmä: {{workshop.targetgroup}} <br>
     		Järjestäjä:  {{workshop.host_organization}}

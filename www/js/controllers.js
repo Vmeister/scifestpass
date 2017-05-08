@@ -194,6 +194,7 @@ angular.module('starter.controllers', [])
 
 .controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL, GET_WORKSHOPS) {
   $scope.workshops = [];
+  var workshopsFromStorage = $localstorage.getStatic(20000);
 
   //$localstorage.setObject('id',213);
 
@@ -208,69 +209,42 @@ angular.module('starter.controllers', [])
   $scope.isClicked = function(workshop) {
     return $scope.shownWorkshop === workshop;
   };
-
-  var req = {
-    method: 'POST',
-    url: APIURL + GET_WORKSHOPS,
-    transformRequest:  $httpParamSerializer,
-    headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-    data: {scifest_id: 10},
-  }
-
-  $http(req).success(function(data) {
-    for(i = 0; i < data.data.length; i++) {
-      var workshop = {
-        name : data.data[i].name + " (" + data.data[i].name_en +")",
-        subjects : "",
-        description : data.data[i].desc,
-        group_size: data.data[i].group_size,
-        host_organization: data.data[i].host_organization,
-        targetgroup: null
-      }
-      for(j = 0; j < data.data[i].subjects.length; j++) {
-        workshop.subjects = workshop.subjects + data.data[i].subjects[j].name;
-        if(j !=data.data[i].subjects.length-1)
-          workshop.subjects = workshop.subjects + ", ";
-      }
-      $scope.workshops.push(workshop);
-    }
-  }).
-  error(function(data) {
-    $scope.workshops = data;
-  });
-
-})
-
-.controller('QRDebugCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT,
-  CHECK_ASSIGNMENT) {
-  $scope.qrdata = "";
-  $scope.JSON = "";
-
+  if(workshopsFromStorage == undefined) {
+    $scope.questions = [];
     var req = {
       method: 'POST',
-      url: APIURL + CHECK_ASSIGNMENT,
-      transformRequest: $httpParamSerializer,
+      url: APIURL + GET_WORKSHOPS,
+      transformRequest:  $httpParamSerializer,
       headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-      data: null
+      data: {scifest_id: 10}
     }
 
-     $scope.readQR = function() {
-      $cordovaBarcodeScanner.scan().then(function(barcodeData) {
-        req.data = {pass_qr : barcodeData.text};
-        $scope.qrdata = barcodeData;
-        alert(JSON.stringify(req.data));
-        $http(req).success(function(data) {
-          $scope.JSON = data;
-        })
-        .error(function(data) {
-          alert("QR-koodin lukeminen epäonnistui. Yritä uudelleen");
-        })
-
-      }, function(err) {
-         alert("QR-koodin lukeminen epäonnistui. Yritä uudelleen")
-      });
+    $http(req).success(function(data) {
+      for(i = 0; i < data.data.length; i++) {
+        var workshop = {
+          name : data.data[i].name + " (" + data.data[i].name_en +")",
+          subjects : "",
+          description : data.data[i].desc,
+          group_size: data.data[i].group_size,
+          host_organization: data.data[i].host_organization,
+          targetgroup: null
+        }
+        for(j = 0; j < data.data[i].subjects.length; j++) {
+          workshop.subjects = workshop.subjects + data.data[i].subjects[j].name;
+          if(j !=data.data[i].subjects.length-1)
+            workshop.subjects = workshop.subjects + ", ";
+        }
+        $scope.workshops.push(workshop);
+      }
+      $localstorage.setStatic(20000, $scope.workshops);
+    })
+  }else {
+    $scope.workshops = [];
+    var workshopJSON = JSON.parse($localstorage.getStatic(20000));
+    for(i = 0; i < workshopJSON.data.length; i++) {
+          $scope.workshops.push(workshopJSON.data[i]);
     }
-
+  }
 })
 
 .controller('SummaryCtrl', function($scope, $localstorage) {
@@ -306,6 +280,7 @@ angular.module('starter.controllers', [])
 
 .controller("QuestionsController", function($scope, $localstorage, $http, $httpParamSerializer, $rootScope, $stateParams, APIURL, GET_SCIFESTPASS) {
   $scope.questions = [];
+  var questionsFromStorage = $localstorage.getStatic(10000);
   var req = {
     method: 'POST',
     url: APIURL + GET_SCIFESTPASS,
@@ -313,34 +288,50 @@ angular.module('starter.controllers', [])
     headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     data: {scifest_id: 10},
   }
-
-  $http(req).success(function(data) {
-    var savedQuestions = $localstorage.getAll();
-    for(i = 0; i < data.data.length; i++) {
-      var question = {
-        id: data.data[i].id,
-        type: data.data[i].type,
-        title: data.data[i].title,
-        content: data.data[i].content,
-        solved: false
-      }
-      for(j = 0; j < savedQuestions.length; j++) {
-        var savedQuestion = JSON.parse(savedQuestions[j]);
-        if(savedQuestion.id == question.id)
-          question.solved=true;
-      }
-      if(question.type != 0) {
-        var parsedContent = JSON.parse(data.data[i].content);
-        var parsedQuestions = "";
-        question.content = "";
-        for(k = 0; k < parsedContent.data.length; k++) {
-          question.content += parsedQuestions + parsedContent.data[k][0];
-          if(k < parsedContent.data.length-1) question.content+="<br>";
+  if(questionsFromStorage == undefined) {
+    $scope.questions = [];
+    $http(req).success(function(data) {
+      for(i = 0; i < data.data.length; i++) {
+        var question = {
+          id: data.data[i].id,
+          type: data.data[i].type,
+          title: data.data[i].title,
+          content: data.data[i].content,
+          solved: false
         }
+        if(question.type != 0) {
+          var parsedContent = JSON.parse(data.data[i].content);
+          var parsedQuestions = "";
+          question.content = "";
+          for(k = 0; k < parsedContent.data.length; k++) {
+            question.content += parsedQuestions + parsedContent.data[k][0];
+            if(k < parsedContent.data.length-1) question.content+="<br>";
+          }
+        }
+        $scope.questions.push(question);
       }
-      $scope.questions.push(question);
+      var savedQuestions = $localstorage.getAll();
+        for(j = 0; j < savedQuestions.length; j++) {
+          var savedQuestion = JSON.parse(savedQuestions[j]);
+          if(savedQuestion.id == question.id)
+            question.solved=true;
+        }
+      $localstorage.setStatic(10000, $scope.questions);
+    })
+  } else {
+    $scope.questions = [];
+    var questionJSON = JSON.parse($localstorage.getStatic(10000));
+    var savedQuestions = $localstorage.getAll();
+    for(i = 0; i < questionJSON.data.length; i++) {
+         for(j = 0; j < savedQuestions.length; j++) {
+            var savedQuestion = JSON.parse(savedQuestions[j]);
+            if(savedQuestion.id == questionJSON.data[i].id)
+              questionJSON.data[i].solved=true;
+          }
+          $scope.questions.push(questionJSON.data[i]);
     }
-  })
+  }
+
 
   $scope.isSolved = function(question) {
     return question.solved;

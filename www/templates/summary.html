@@ -9,7 +9,7 @@
     	<h2>Suorituksesi</h2>
     	<div ng-repeat="assignment in answeredQuestions" class="div div-text-wrap">
         	<h2>{{assignment.title}}</h2>
-        	<p ng-bind-html="assignment.text">{{assignment.text}}</p>
+        	<p id="balanced" ng-bind-html="assignment.text">{{assignment.text}}</p>
     	</div>
     </div>
   </ion-content>

@@ -52,6 +52,13 @@
   	max-height: 100%;
   	margin: auto;
   	display: block;
+}
 
-
+.workshops {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+    -ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	font-size: 200%;
 }

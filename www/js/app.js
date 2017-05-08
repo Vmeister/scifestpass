@@ -36,8 +36,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     set: function (key, value) {
       $window.localStorage[key] = value;
     },
+    setStatic: function(key, value) {
+      var json = {
+        data: []
+      }
+      for(i = 0; i < value.length; i++)
+        json.data.push(value[i]);
+      var JSONstring = JSON.stringify(json);
+      $window.localStorage[key] = JSONstring;
+    },
     get: function (key, defaultValue) {
       return $window.localStorage[key] || defaultValue;
+    },
+    getStatic: function(key) {
+      return $window.localStorage[key];
     },
     setObject: function (key, value) {
       $window.localStorage[key] = JSON.stringify(value);
@@ -57,6 +69,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         }
       }
       return allItems;
+    },
+    clear: function() {
+      $window.localStorage.clear();
     }
   }
 }])
@@ -84,6 +99,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 
   .state('app.workshops', {
     url: '/workshops',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/workshops.html',
