@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT, CHECK_ASSIGNMENT, $localstorage) {
+    $scope.id = null;
     $scope.title = "";
     $scope.content = "";
     $scope.qrRead = false;
@@ -13,6 +14,7 @@ angular.module('starter.controllers', [])
     $scope.id = null;
 
     $scope.questionStorage = {
+      id: null,
       type: null,
       title: null,
       data: null
@@ -94,6 +96,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.saveAnswer = function() {
+      $scope.questionStorage.id = $scope.id;
       if($scope.isOpenQuestion) {
         $scope.questionStorage.type = 0;
         $scope.questionStorage.title = $scope.title;
@@ -277,7 +280,6 @@ angular.module('starter.controllers', [])
   var answered = $localstorage.getAll();
   if(answered.length > 0) {
     $scope.hasAnswered = true;
-    alert("Nyt pitäisi tehtävien näkyä!");
   }
   for(i = 0; i < answered.length; i++) {
     var question = JSON.parse(answered[i]);
@@ -302,6 +304,50 @@ angular.module('starter.controllers', [])
   }
 })
 
+.controller("QuestionsController", function($scope, $localstorage, $http, $httpParamSerializer, $rootScope, $stateParams, APIURL, GET_SCIFESTPASS) {
+  $scope.questions = [];
+  var req = {
+    method: 'POST',
+    url: APIURL + GET_SCIFESTPASS,
+    transformRequest:  $httpParamSerializer,
+    headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
+    data: {scifest_id: 10},
+  }
+
+  $http(req).success(function(data) {
+    var savedQuestions = $localstorage.getAll();
+    for(i = 0; i < data.data.length; i++) {
+      var question = {
+        id: data.data[i].id,
+        type: data.data[i].type,
+        title: data.data[i].title,
+        content: data.data[i].content,
+        solved: false
+      }
+      for(j = 0; j < savedQuestions.length; j++) {
+        var savedQuestion = JSON.parse(savedQuestions[j]);
+        if(savedQuestion.id == question.id)
+          question.solved=true;
+      }
+      if(question.type != 0) {
+        var parsedContent = JSON.parse(data.data[i].content);
+        var parsedQuestions = "";
+        question.content = "";
+        for(k = 0; k < parsedContent.data.length; k++) {
+          question.content += parsedQuestions + parsedContent.data[k][0];
+          if(k < parsedContent.data.length-1) question.content+="<br>";
+        }
+      }
+      $scope.questions.push(question);
+    }
+  })
+
+  $scope.isSolved = function(question) {
+    return question.solved;
+  }
+
+})
+
 .controller('MenuCtrl', function($scope, $rootScope, $stateParams, $state) {
   $scope.help = function() {
     var currentState = $state.current.name;
@@ -311,7 +357,8 @@ angular.module('starter.controllers', [])
       alert("Tehtävät-näkymässä voit lukea QR-koodeja ja vastata koodilla saatuihin tehtäviin.");
     else if(currentState === "app.summary")
       alert("Yhteenveto-näkymässä voit tarkastella suoritettuja tehtäviäsi.");
-    else alert("Sovelluksen tietoja.");
+    else if(currentState === "app.about") alert("Sovelluksen tietoja.");
+    else alert("Sovelluksen etusivu.");
   }
 
 })

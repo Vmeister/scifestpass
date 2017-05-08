@@ -10,6 +10,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 .value('GET_WORKSHOPS', 'get_workshops/')
 .value('GET_ASSIGNMENT', 'scifest_pass_qr_get/')
 .value('CHECK_ASSIGNMENT', 'scifest_pass_qr_check/')
+.value('GET_SCIFESTPASS', 'scifest_pass_get/')
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -70,6 +71,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     controller: 'MenuCtrl'
   })
 
+  .state('app.questions', {
+    url: '/questions',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/questions.html',
+        controller: 'QuestionsController'
+      }
+    }
+  })
+
   .state('app.workshops', {
     url: '/workshops',
     views: {
@@ -98,15 +110,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         controller: "SummaryCtrl"
       }
     }
-  })
-  .state('app.about', {
-    url: '/about',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/about.html',
-      }
-    }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/qrcode');
+  $urlRouterProvider.otherwise('/app/questions');
 });

@@ -1,0 +1,16 @@
+<ion-view view-title="Etusivu">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <ion-content padding="true">
+  	<img class="center-img" align="middle" ng-src="img/SciFest_logo.png"/>
+  	<h2 class="center">Kysymykset</h2>
+  	<ion-list>
+  	<ion-item class="item-borderless" ng-repeat="question in questions" class="div div-text-wrap">
+  		{{question.title}}
+  		<br>
+  		<p ng-bind-html="question.content">{{question.content}}</p>
+  		<p class="item-icon-right"> <i class="icon" ng-class="isSolved(question) ? 'ion-checkmark' : ''"></i></p>
+  	</ion-item>
+  	</ion-list>
+  </ion-content>
+</ion-view>

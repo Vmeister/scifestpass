@@ -2,6 +2,12 @@
 	background-color: #c9e0d0;
 }
 
+.questionlist {
+	border-size:2;
+	border-style:solid;
+	border-color:black;
+}
+
 #answer {
 	background-color: #c9e0d0;
 	width: 90%;
@@ -35,4 +41,17 @@
 .list .item.item-accordion.ng-hide-add,
 .list .item.item-accordion.ng-hide-remove {
   display: block !important;
+}
+
+.center {
+	text-align: center;
+}
+
+.center-img {
+	max-width: 100%;
+  	max-height: 100%;
+  	margin: auto;
+  	display: block;
+
+
 }

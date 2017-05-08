@@ -5,7 +5,7 @@
   	<div ng-hide="hasAnswered">
   		<h2>Sinulla ei ole yhtään suorituksia.</h2>
   	</div>
-  	<div ng-show="hasAnswered">
+  	<div ng-show="hasAnswered" class="center">
     	<h2>Suorituksesi</h2>
     	<div ng-repeat="assignment in answeredQuestions" class="div div-text-wrap">
         	<h2>{{assignment.title}}</h2>
