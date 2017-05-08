@@ -273,7 +273,12 @@ angular.module('starter.controllers', [])
 .controller('SummaryCtrl', function($scope, $localstorage) {
   $scope.answeredQuestions = [];
   $scope.debug = "";
+  $scope.hasAnswered = false;
   var answered = $localstorage.getAll();
+  if(answered.length > 0) {
+    $scope.hasAnswered = true;
+    alert("Nyt pitäisi tehtävien näkyä!");
+  }
   for(i = 0; i < answered.length; i++) {
     var question = JSON.parse(answered[i]);
     if(question.type == 0) {
@@ -290,7 +295,7 @@ angular.module('starter.controllers', [])
       }
       for(j = 0; j < question.data.length; j++) {
         answeredQuestion.text =  answeredQuestion.text + "Kysymys: " + question.data[j].question +
-         "<br>" + "Vastaukset: " + question.data[j].answers + "<br>";
+         "<br>" + "Vastaukset: " + question.data[j].answers + "<br><br>";
       }
       $scope.answeredQuestions.push(answeredQuestion);
     }

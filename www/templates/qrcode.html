@@ -9,7 +9,6 @@
       <h2>{{title}}</h2>
       <div ng-show="isOpenQuestion">
         <p ng-bind-html="content"></p>
-        <h2>Vastaus</h2>
         <textarea class="answer" id="answer" placeholder="Vastauslaatikko" ng-model="openAnswer.answer">
         </textarea>
       </div>
@@ -19,7 +18,7 @@
           {{question.question}}
           <ion-item ng-repeat="option in question.options" ng-model="options" 
           ng-click="select(question.question, option.option)" ng-class="{'selected' : option.selected}">
-              {{option.option}}
+              {{option.option}}<br>
           </ion-item>
         </ion-list>
       </div>
@@ -31,10 +30,11 @@
           ng-click="select(question.question, option.option)" ng-class="{'selected' : option.selected}">
               {{option.option}}
           </ion-item>
+          <br>
         </ion-list>
       </div>
     <div ng-show="qrRead">
-      <button class="button button-balanced" ng-click="checkAnswer()">Checkaa pajaa</button>
+      <button class="button button-balanced" ng-click="checkAnswer()">Checkaa paja</button>
       <button class="button button-balanced" ng-click="cancelAssignment()">Peruuta</button>
    </div>
   </ion-content>
