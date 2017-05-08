@@ -203,7 +203,9 @@ angular.module('starter.controllers', [])
   $scope.toggleWorkshop = function(workshop) {
     if($scope.isClicked(workshop)) {
       $scope.shownWorkshop = null;
-    } else $scope.shownWorkshop = workshop;
+    } else  {
+      $scope.shownWorkshop = workshop;
+    }
   };
 
   $scope.isClicked = function(workshop) {
