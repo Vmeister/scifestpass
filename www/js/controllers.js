@@ -21,16 +21,20 @@ angular.module('starter.controllers', [])
       data: null
     }
 
-
     var req = {
     	method: 'POST',
     	url: APIURL + GET_ASSIGNMENT,
     	transformRequest: $httpParamSerializer,
     	headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
-    	data: null
+    	data: {pass_qr : $state.params.qrcode}
     }
 
-    $scope.readQR = function() {
+    $http(req).success(function(data) {
+      if(data.data !== undefined)
+          createAssignment(data);
+    })
+
+   $scope.readQR = function() {
       $cordovaBarcodeScanner.scan().then(function(barcodeData) {
       	req.data = {pass_qr : barcodeData.text};
         $http(req).success(function(data) {
@@ -276,7 +280,8 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller("QuestionsController", function($scope, $localstorage, $http, $httpParamSerializer, $rootScope, $state, $stateParams, APIURL, GET_SCIFESTPASS) {
+.controller("QuestionsController", function($scope, $rootScope, $localstorage, $http, $httpParamSerializer, 
+  $rootScope, $state, $stateParams, APIURL, GET_SCIFESTPASS) {
   $scope.questions = [];
   var questionsFromStorage = $localstorage.getStatic(10000);
   var req = {
@@ -294,6 +299,7 @@ angular.module('starter.controllers', [])
           id: data.data[i].id,
           type: data.data[i].type,
           title: data.data[i].title,
+          qr_get: data.data[i].qr_get,
           question: "",
           solved: false
         }
@@ -343,6 +349,9 @@ angular.module('starter.controllers', [])
     $state.go("app.qrcode");
    }
 
+  $scope.goToQuestion = function(qrcode) {
+    $state.go('app.qrcode', {qrcode: qrcode});
+  }
 })
 
 .controller('MenuCtrl', function($scope, $rootScope, $stateParams, $state) {

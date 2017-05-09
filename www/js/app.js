@@ -105,7 +105,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         templateUrl: 'templates/home.html',
         controller: 'QuestionsController'
       }
-    }
+    },
   })
 
   .state('app.workshops', {
@@ -120,7 +120,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
   })
 
   .state('app.qrcode', {
-    url: '/qrcode',
+    url: '/qrcode:qrcode',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/qrcode.html',
