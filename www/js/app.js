@@ -29,9 +29,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
 })
 
 .factory('$localstorage', ['$window', function ($window) {
-  var items = [];
-  $window.localStorage[0] = items;
-
   return {
     set: function (key, value) {
       $window.localStorage[key] = value;
@@ -53,19 +50,32 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     },
     setObject: function (key, value) {
       $window.localStorage[key] = JSON.stringify(value);
-      if(items.indexOf(key) == -1)
-        items.push(key);
-      $window.localStorage[0] = items;
+      var itemList = JSON.parse($window.localStorage[0]);
+      if(itemList == undefined || itemList == null) {
+        itemList = {
+          data: []
+        }
+      }
+      if(itemList.data.indexOf(key) == -1)
+        itemList.data.push(key);
+      $window.localStorage[0] = JSON.stringify(itemList);
     },
     getObject: function (key) {
       return JSON.parse($window.localStorage[key] || '{}');
     },
     getAll:function() {
       var allItems = [];
-      for(i = 0; i < items.length; i++) {
-        var item = $window.localStorage[items[i]];
+      var itemList = null;
+      if($window.localStorage[0] != null && $window.localStorage[0] != undefined)
+        itemList = JSON.parse($window.localStorage[0]);
+      else {
+        $window.localStorage[0] = JSON.stringify({data: []});
+        itemLIst = JSON.parse($window.localStorage[0]);
+      }
+      for(i = 0; i < itemList.data.length; i++) {
+        var item = $window.localStorage[itemList.data[i]];
         if(item !== undefined) {
-          allItems.push($window.localStorage[items[i]]);
+          allItems.push($window.localStorage[itemList.data[i]]);
         }
       }
 

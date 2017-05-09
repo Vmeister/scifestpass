@@ -132,9 +132,12 @@ angular.module('starter.controllers', [])
 
         $http(req).success(function(data) {
           if(data.data == "ok") {
-            $scope.saveAnswer();
-            alert("Vastaus checkattu pajalla");
-            clearAssignment();
+            var parsedText = barcodeData.text.split("_");
+            if(parsedText[1] == $scope.id) {
+              $scope.saveAnswer();
+              alert("Vastauksesi on tallennettu.");
+              clearAssignment();
+            }
           }
         })
         .error(function(data) {
