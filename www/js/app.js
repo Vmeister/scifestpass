@@ -53,7 +53,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     },
     setObject: function (key, value) {
       $window.localStorage[key] = JSON.stringify(value);
-      items.push(key);
+      if(items.indexOf(key) == -1)
+        items.push(key);
       $window.localStorage[0] = items;
     },
     getObject: function (key) {

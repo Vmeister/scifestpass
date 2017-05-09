@@ -34,7 +34,8 @@ angular.module('starter.controllers', [])
       $cordovaBarcodeScanner.scan().then(function(barcodeData) {
       	req.data = {pass_qr : barcodeData.text};
         $http(req).success(function(data) {
-          createAssignment(data);
+          if(data.data !== undefined)
+            createAssignment(data);
         })
         .error(function(data) {
           alert("QR-koodin lukeminen epäonnistui. Yritä uudelleen");
