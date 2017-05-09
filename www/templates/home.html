@@ -3,9 +3,11 @@
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <ion-content padding="true">
   	<img class="center-img" align="middle" ng-src="img/SciFest_logo.png"/>
-     <button class="button button-balanced" ng-click="gotoQR()">
-     	<i class="icon ion-forward"></i> QR-koodin lukemiseen</button>
-  	<h2>Kysymykset</h2>
+  	<br><br>
+     <button class="button button-block button-balanced" ng-click="gotoQR()">
+     	<i class="icon ion-forward"></i> Ratkaise tehtävä</button>
+     <br><br>
+  	<h3>Tiedätkö...?</h3>
   	<ion-list>
   	<ion-item class="item-borderless item-text-wrap" ng-repeat="question in questions"">
   		{{question.title}}

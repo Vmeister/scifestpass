@@ -3,7 +3,7 @@
   <link href="lib/ionic/css/ionic.css" rel="stylesheet">
   <ion-content padding="true" class= "has-footer">
     <div ng-hide="qrRead">
-    	<button class="button button-balanced" ng-click="readQR()"><i class="icon ion-camera"></i> Skannaa QR</button>
+    	<button class="button button-block button-balanced" ng-click="readQR()"><i class="icon ion-camera"></i> Skannaa QR</button>
     </div>
     <div ng-show="qrRead">
       <h2>{{title}}</h2>
@@ -34,8 +34,8 @@
         </ion-list>
       </div>
     <div ng-show="qrRead">
-      <button class="button button-balanced" ng-click="checkAnswer()">Checkaa paja</button>
-      <button class="button button-balanced" ng-click="cancelAssignment()">Peruuta</button>
+      <button class="button button-block button-balanced" ng-click="checkAnswer()">Checkaa paja</button><br>
+      <button class="button button-block button-balanced" ng-click="cancelAssignment()">Peruuta</button>
    </div>
   </ion-content>
 </ion-view>
