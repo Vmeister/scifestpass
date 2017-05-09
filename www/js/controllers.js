@@ -197,7 +197,6 @@ angular.module('starter.controllers', [])
 .controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL, GET_WORKSHOPS, $state, $stateParams) {
   $scope.workshops = [];
   var workshopsFromStorage = $localstorage.getStatic(20000);
-
   //$localstorage.setObject('id',213);
 
   //$localstorage.getObject('id')
