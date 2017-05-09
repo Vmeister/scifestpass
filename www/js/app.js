@@ -61,13 +61,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     },
     getAll:function() {
       var allItems = [];
-      var items = $window.localStorage[0];
       for(i = 0; i < items.length; i++) {
         var item = $window.localStorage[items[i]];
-        if(item != undefined) {
+        if(item !== undefined) {
           allItems.push($window.localStorage[items[i]]);
         }
       }
+
       return allItems;
     },
     clear: function() {

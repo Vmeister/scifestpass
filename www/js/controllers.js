@@ -299,24 +299,20 @@ angular.module('starter.controllers', [])
           id: data.data[i].id,
           type: data.data[i].type,
           title: data.data[i].title,
-          content: data.data[i].content,
+          question: "",
           solved: false
         }
-        if(question.type != 0) {
-          var parsedContent = null;
-          if(question.type == 1)
-            parsedContent = JSON.parse(data.data[i].content);
-          else if(question.type == 2) {
-            parsedContent = {
-              data: [JSON.parse(data.data[i].content)]
-            }
+        if(question.type == 0) {
+          question.question = data.data[i].content;
+        }
+        else if(question.type != 0) {
+          if(question.type == 1) {
+            var parsedData = JSON.parse(data.data[i].content);
+            question.question = parsedData.data[0][0];
           }
-          var parsedQuestions = "";
-          question.content = "";
-          alert(JSON.stringify(parsedContent));
-          for(k = 0; k < parsedContent.data.length; k++) {
-            question.content += parsedQuestions + parsedContent.data[k][0];
-            if(k < parsedContent.data.length-1) question.content+="<br>";
+          else if(question.type == 2) {
+            var dataList = JSON.parse(data.data[i].content);
+            question.question = dataList[0];
           }
         }
         $scope.questions.push(question);

@@ -5,10 +5,10 @@
   	<img class="center-img" align="middle" ng-src="img/SciFest_logo.png"/>
   	<h2>Kysymykset</h2>
   	<ion-list>
-  	<ion-item class="item-borderless" ng-repeat="question in questions" class="div div-text-wrap">
+  	<ion-item class="item-borderless item-text-wrap" ng-repeat="question in questions"">
   		{{question.title}}
   		<br>
-  		<p ng-bind-html="question.content">{{question.content}}</p>
+  		<p ng-bind-html="question.question">{{question.question}}</p>
   		<p class="item-icon-right"> <i class="icon" ng-class="isSolved(question) ? 'ion-checkmark' : ''"></i></p>
   	</ion-item>
   	</ion-list>
