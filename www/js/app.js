@@ -86,12 +86,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     controller: 'MenuCtrl'
   })
 
-  .state('app.questions', {
-    url: '/questions',
+  .state('app.home', {
+    url: '/home',
     cache: false,
     views: {
       'menuContent': {
-        templateUrl: 'templates/questions.html',
+        templateUrl: 'templates/home.html',
         controller: 'QuestionsController'
       }
     }
@@ -128,5 +128,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/questions');
+  $urlRouterProvider.otherwise('/app/home');
 });

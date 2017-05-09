@@ -225,17 +225,8 @@ angular.module('starter.controllers', [])
     $http(req).success(function(data) {
       for(i = 0; i < data.data.length; i++) {
         var workshop = {
-          name : data.data[i].name + " (" + data.data[i].name_en +")",
-          subjects : "",
-          description : data.data[i].desc,
-          group_size: data.data[i].group_size,
-          host_organization: data.data[i].host_organization,
-          targetgroup: null
-        }
-        for(j = 0; j < data.data[i].subjects.length; j++) {
-          workshop.subjects = workshop.subjects + data.data[i].subjects[j].name;
-          if(j !=data.data[i].subjects.length-1)
-            workshop.subjects = workshop.subjects + ", ";
+          name : data.data[i].name,
+          description : data.data[i].desc
         }
         $scope.workshops.push(workshop);
       }
