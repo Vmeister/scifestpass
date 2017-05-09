@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('BarcodeCtrl', function($scope, $http, $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT, CHECK_ASSIGNMENT, $localstorage) {
+.controller('BarcodeCtrl', function($scope, $rootScope, $timeout, $state, $stateParams, $http, 
+  $httpParamSerializer, $cordovaBarcodeScanner, APIURL, GET_ASSIGNMENT, CHECK_ASSIGNMENT, $localstorage) {
     $scope.id = null;
     $scope.title = "";
     $scope.content = "";
@@ -193,7 +194,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL, GET_WORKSHOPS) {
+.controller('WorkshopsCtrl', function($scope, $http, $httpParamSerializer, $localstorage, APIURL, GET_WORKSHOPS, $state, $stateParams) {
   $scope.workshops = [];
   var workshopsFromStorage = $localstorage.getStatic(20000);
 
@@ -272,7 +273,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller("QuestionsController", function($scope, $localstorage, $http, $httpParamSerializer, $rootScope, $stateParams, APIURL, GET_SCIFESTPASS) {
+.controller("QuestionsController", function($scope, $localstorage, $http, $httpParamSerializer, $rootScope, $state, $stateParams, APIURL, GET_SCIFESTPASS) {
   $scope.questions = [];
   var questionsFromStorage = $localstorage.getStatic(10000);
   var req = {
@@ -334,6 +335,10 @@ angular.module('starter.controllers', [])
   $scope.isSolved = function(question) {
     return question.solved;
   }
+
+  $scope.gotoQR = function() {
+    $state.go("app.qrcode");
+   }
 
 })
 
