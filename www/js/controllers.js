@@ -168,6 +168,7 @@ angular.module('starter.controllers', [])
         else $scope.questionStorage.type = 2;
 
       }
+      alert("Vastauksesi on tallennettu paikallisesti.");
       $localstorage.saveQuestion($scope.id, $scope.questionStorage);
     }
 
@@ -188,7 +189,7 @@ angular.module('starter.controllers', [])
             var parsedText = barcodeData.text.split("_");
             if(parsedText[1] == $scope.id) {
               $scope.saveAnswer();
-              alert("Vastauksesi on tallennettu.");
+              alert("Vastauksesi on tallennettu ja merkitty suoritetuksi.");
               clearAssignment();
             }
           }
