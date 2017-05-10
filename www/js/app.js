@@ -63,6 +63,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     getObject: function (key) {
       return JSON.parse($window.localStorage[key] || '{}');
     },
+    saveQuestion: function (key, value) {
+      $window.localStorage[key] = JSON.stringify(value);
+    },
+    getSavedQuestion: function(key) {
+      var question = $window.localStorage[key];
+      if(question != null && question != undefined) {
+        var parsed = JSON.parse(question);
+        return parsed;
+      }
+      else return null;
+    },
     getAll:function() {
       var allItems = [];
       var itemList = null;
@@ -70,7 +81,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         itemList = JSON.parse($window.localStorage[0]);
       else {
         $window.localStorage[0] = JSON.stringify({data: []});
-        itemLIst = JSON.parse($window.localStorage[0]);
+        itemList = JSON.parse($window.localStorage[0]);
       }
       for(i = 0; i < itemList.data.length; i++) {
         var item = $window.localStorage[itemList.data[i]];

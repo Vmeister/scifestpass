@@ -28,10 +28,39 @@ angular.module('starter.controllers', [])
     	headers: {'Content-Type' : 'application/x-www-form-urlencoded'},
     	data: {pass_qr : $state.params.qrcode}
     }
-
-    $http(req).success(function(data) {
-      if(data.data !== undefined)
+    $scope.$on('$stateChangeSuccess', function(event, toState) {
+      if($state.params.qrcode != null && toState.url != "/home") {
+        var qrText = $state.params.qrcode.split("_");
+        var savedQuestion = $localstorage.getSavedQuestion(qrText[1]);
+        if(savedQuestion != null || savedQuestion != undefined) {
+          $scope.id = savedQuestion.id;
+          $scope.title = savedQuestion.title;
+          $scope.qrRead = true;
+          if(savedQuestion.type == 0) {
+            $scope.isOpenQuestion = true;
+            $scope.isMultipleChoice = false;
+            $scope.isSingleChoice = false;
+            $scope.openAnswer.answer = savedQuestion.answer;
+            $scope.content = savedQuestion.data;
+          } else if(savedQuestion.type == 1) {
+            $scope.questions = savedQuestion.data;
+            $scope.isSingleChoice = true;
+            $scope.isOpenQuestion = false;
+            $scope.isMultipleChoice = false;
+          } else {
+            $scope.questions = savedQuestion.data;
+            $scope.isSingleChoice = false;
+            $scope.isOpenQuestion = false;
+            $scope.isMultipleChoice = true;
+          }
+      }
+      else {
+        $http(req).success(function(data) {
+        if(data.data !== undefined)
           createAssignment(data);
+        })
+      }
+    }
     })
 
    $scope.readQR = function() {
@@ -100,6 +129,7 @@ angular.module('starter.controllers', [])
             }
           }
        }
+       //$localstorage.saveQuestion($scope.id, $scope.questions);
     }
 
     $scope.saveAnswer = function() {
@@ -114,12 +144,31 @@ angular.module('starter.controllers', [])
         $scope.questionStorage.title = $scope.title;
         $scope.questionStorage.data = $scope.questions;
         if($scope.isSingleChoice)
-          $scope.questionStorage.type = 2;
-        else $scope.questionStorage.type = 1;
+          $scope.questionStorage.type = 1;
+        else $scope.questionStorage.type = 2;
 
       }
       $localstorage.setObject($scope.id, $scope.questionStorage);
       clearAssignment();
+    }
+
+    $scope.saveAnswerLocal = function() {
+      $scope.questionStorage.id = $scope.id;
+      if($scope.isOpenQuestion) {
+        $scope.questionStorage.type = 0;
+        $scope.questionStorage.title = $scope.title;
+        $scope.questionStorage.data = $scope.content;
+        $scope.questionStorage.answer = $scope.openAnswer.answer;
+      }
+      else {
+        $scope.questionStorage.title = $scope.title;
+        $scope.questionStorage.data = $scope.questions;
+        if($scope.isSingleChoice)
+          $scope.questionStorage.type = 1;
+        else $scope.questionStorage.type = 2;
+
+      }
+      $localstorage.saveQuestion($scope.id, $scope.questionStorage);
     }
 
     $scope.checkAnswer = function() {
@@ -159,17 +208,17 @@ angular.module('starter.controllers', [])
     }
 
     var clearAssignment = function() {
-    $scope.title = "";
-    $scope.content = "";
-    $scope.answer = "";
-    $scope.qrRead = false;
-    $scope.isOpenQuestion = false;
-    $scope.isMultipleChoice = false;
-    $scope.openAnswer.answer = "";
-    $scope.questions = [];
-    $scope.questionStorage.title = null;
-    $scope.questionStorage.question = null;
-    $scope.questionStorage.answer = null;
+      $scope.title = "";
+      $scope.content = "";
+      $scope.answer = "";
+      $scope.qrRead = false;
+      $scope.isOpenQuestion = false;
+      $scope.isMultipleChoice = false;
+      $scope.openAnswer.answer = "";
+      $scope.questions = [];
+      $scope.questionStorage.title = null;
+      $scope.questionStorage.question = null;
+      $scope.questionStorage.answer = null;
     }
 
     $scope.select = function(question, choice) {
